@@ -24,10 +24,22 @@ function updateMod(db, id, data) {
             {
                 'avg_price': x.avg_price,
                 'mod_rank': x.mod_rank,
-                'timestmap': x.datetime
+                'timestmap': new Date(x.datetime)
             }
         )));
 
+        let ds = [];
+
+        current_data.forEach(mod => {
+            ds[mod.mod_rank].push({
+                "id": id,
+                "price": mod.avg_price,
+                "timestamp":mod.timestamp.getTime()
+            })
+        })
+
+        console.log(ds);
+        
         current_data.sort(function (a, b) { return a.timestmap - b.timestmap })
 
         if (current_data[0].mod_rank == current_data[1].mod_rank || current_data[0].timestamp != current_data[1].timestamp) {
