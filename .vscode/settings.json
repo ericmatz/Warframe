@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:Warframe}/db/warframe.db",
+            "name": "warframe"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

@@ -20,10 +20,11 @@ Database.open(db_utility.database,Database.OPEN_READWRITE)
                 console.info("Mod Table Created Successfully.. 50%")
                 get_data('https://wf.snekw.com/mods-wiki')
                     .then(json =>{
-                        let count = 0
-
+                        let count = 0;
                         for (const [key,value] of Object.entries(json.data.Mods)) {
-                            db.run(db_utility.mod_insert,value.Name, (value.Rarity == null ? 'N/A' : value.Rarity),`https://api.warframe.market/v1/items/${value.Name.replace(/[' ]/g, m=>db_utility.replace_char[m]).toLowerCase()}/statistics`,Date.now(),0,0,0,0)
+                            let isTradeable = ("Tradable" in  value) ? value.Tradable : 0;
+
+                            db.run(db_utility.mod_insert,value.Name, (value.Rarity == null ? 'N/A' : value.Rarity),`https://api.warframe.market/v1/items/${value.Name.replace(/[' \-&]/g, m=>db_utility.replace_char[m]).toLowerCase()}/statistics`,isTradeable,Date.now(),0,0,0,0)
                             .then(res => {
                                 count++
                                 console.log(`Mod Inserted: ${value.Name}, ${(count/Object.keys(json.data.Mods).length) * 100}% complete`)

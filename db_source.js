@@ -14,6 +14,7 @@ const database = './db/warframe.db'
      name TEXT not null,
      rarity TEXT not null,
      url TEXT not null,
+     tradeable INTEGER not null,
      last_update INTEGER not null,
      count_min INTEGER not null,
      count_max INTEGER not null,
@@ -110,7 +111,7 @@ const get_rowid =
 `select seq id from sqlite_sequence where name = ?`
 
 const mod_insert =
-`INSERT INTO mods(name,rarity,url,last_update,count_min,count_max,price_min,price_max) Values (?,?,?,?,?,?,?,?)`
+`INSERT INTO mods(name,rarity,url,tradeable,last_update,count_min,count_max,price_min,price_max) Values (?,?,?,?,?,?,?,?,?)`
 
 const syndicate_insert =
 `INSERT INTO syndicates(name,last_update) VALUES (?,?)`
@@ -118,7 +119,7 @@ const syndicate_insert =
 const syndicate_offering_insert =
 `INSERT INTO syndicate_offerings(syndicate_id,mod_id,weapon_id,offering_cost,last_update) VALUES ((select seq id from sqlite_sequence where name = 'syndicates'),?,?,?,?)`
 
-const replace_char = {'\'':'',' ':'_'}
+const replace_char = {'\'':'',' ':'_','-':'_','&':'and'}
 
 module.exports  = {
   database,
